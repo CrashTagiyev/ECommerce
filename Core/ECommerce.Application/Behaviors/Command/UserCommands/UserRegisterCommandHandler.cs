@@ -62,7 +62,7 @@ namespace ECommerce.Application.Behaviors.Command.UserCommands
 					var responce = new UserRegisterCommandResponce
 					{
 						IsCreated = true,
-						ConfirmMessage = "Account created successfully"
+						ConfirmMessage = "Account created successfully.Please confirm registration from the email"
 					};
 					return responce;
 				}

@@ -1,13 +1,7 @@
 ﻿using ECommerce.Domain.Entities.Concretes;
 using System.Net.Mail;
 using System.Net;
-using System.Text;
-using System.Security.Cryptography;
-using System.Security.Claims;
-using System.IdentityModel.Tokens.Jwt;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Configuration;
-using ECommerce.Infrastructure.Services;
 using Microsoft.AspNetCore.Identity;
 
 namespace ECommerce.Application.Services
