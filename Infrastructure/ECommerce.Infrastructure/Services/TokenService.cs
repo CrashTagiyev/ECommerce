@@ -19,6 +19,7 @@ public class TokenService : ITokenService
 
     public string CreateToken(AppUser user)
     {
+        
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:SecretKey"]));
         var tokenDescription = new SecurityTokenDescriptor()
         {

@@ -14,10 +14,11 @@ public static class RegisterServices
     public static void AddInfrastructureRegister(this WebApplicationBuilder builder)
     {
         builder.Services.AddScoped<ITokenService, TokenService>();
+        builder.Services.AddScoped<ITokenService, TokenService>();
 
 
-        // Add Auth JWT
-        builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+		// Add Auth JWT
+		builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters()

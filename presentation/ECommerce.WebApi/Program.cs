@@ -1,7 +1,7 @@
 using ECommerce.Persistence;
 using ECommerce.Application;
 using ECommerce.Infrastructure;
-
+using Microsoft.AspNetCore.Identity;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.

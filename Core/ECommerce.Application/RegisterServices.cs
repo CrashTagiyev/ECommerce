@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using ECommerce.Application.Services;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
@@ -9,5 +10,7 @@ public static class RegisterServices
     public static void AddApplicationRegister(this IServiceCollection services)
     {
         services.AddMediatR(p=>p.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
-    }
+
+		services.AddTransient<IEmailService, EmailService>();
+	}
 }

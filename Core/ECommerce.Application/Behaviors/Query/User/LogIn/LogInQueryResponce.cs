@@ -8,6 +8,9 @@ namespace ECommerce.Application.Behaviors.Query.AppUser.LogIn
 {
 	public class LogInQueryResponce
 	{
-        public string? Token { get; set; }=null;
-    }
+		public string? Token { get; set; } = null;
+
+		public string? EnailConfirmMessage { get; set; } = null;
+		public string? PasswordWrongMessage { get; set; } = null;
+	}
 }
