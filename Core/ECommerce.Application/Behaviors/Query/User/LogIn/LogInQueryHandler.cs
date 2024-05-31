@@ -1,15 +1,8 @@
 ﻿using ECommerce.Application.Behaviors.Query.AppUser.LogIn;
-using ECommerce.Application.Repositories;
 using ECommerce.Application.Services;
-using ECommerce.Domain.DTOs;
-using ECommerce.Domain.Entities.Concretes;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace ECommerce.Application.Behaviors.Query.User.LogIn
 {
@@ -17,12 +10,14 @@ namespace ECommerce.Application.Behaviors.Query.User.LogIn
 	{
 		private readonly ITokenService _tokenService;
 		private readonly UserManager<Domain.Entities.Concretes.AppUser> _userManager;
+		private readonly RoleManager<IdentityRole> _roleManager;
 
 
-		public LogInQueryHandler(UserManager<Domain.Entities.Concretes.AppUser> userManager, ITokenService tokenService)
+		public LogInQueryHandler(UserManager<Domain.Entities.Concretes.AppUser> userManager, ITokenService tokenService, RoleManager<IdentityRole> roleManager)
 		{
 			_userManager = userManager;
 			_tokenService = tokenService;
+			_roleManager = roleManager;
 		}
 
 		public async Task<LogInQueryResponce> Handle(LogInQueryRequest request, CancellationToken cancellationToken)
@@ -39,8 +34,8 @@ namespace ECommerce.Application.Behaviors.Query.User.LogIn
 			if (!checkPassword)
 				return new LogInQueryResponce() { PasswordWrongMessage = "Login or password is wrong" };
 
-			var token = _tokenService.CreateToken(user);
-
+			var roleName = await _userManager.GetRolesAsync(user);
+			var token = _tokenService.CreateToken(user, roleName[0]!);
 			return new LogInQueryResponce { Token = token };
 		}
 	}

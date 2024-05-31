@@ -1,8 +1,10 @@
 ﻿using ECommerce.Application.Repositories;
+using ECommerce.Application.Repositories.AppUserAbstractRepo;
 using ECommerce.Application.Services;
 using ECommerce.Domain.Entities.Concretes;
 using ECommerce.Persistence.DbContexts;
 using ECommerce.Persistence.Repositories;
+using ECommerce.Persistence.Repositories.AppUserRepos;
 using ECommerce.Persistence.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -34,6 +36,7 @@ public static class RegisterServices
 		services.AddScoped<IReadOrderRepository, ReadOrderRepository>();
 		services.AddScoped<IReadProductRepository, ReadProductRepository>();
 		services.AddScoped<IReadCategoryRepository, ReadCategoryRepository>();
+		services.AddScoped<IReadAppUserRepository, ReadAppUserRepository>();
 
 		// All Write Repository
 		services.AddScoped<IWriteOrderRepository, WriteOrderRepository>();
@@ -45,5 +48,6 @@ public static class RegisterServices
 		// All Services Register
 		services.AddScoped<IProductService, ProductService>();
 		services.AddScoped<ICategoryService, CategoryService>();
+		services.AddScoped<IAppUserService, AppUserService>();
 	}
 }

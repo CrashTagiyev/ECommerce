@@ -4,5 +4,5 @@ namespace ECommerce.Application.Services;
 
 public interface ITokenService
 {
-    string CreateToken(AppUser user);
+    string CreateToken(AppUser user,string roleName);
 }

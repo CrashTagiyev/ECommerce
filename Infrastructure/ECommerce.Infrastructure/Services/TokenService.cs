@@ -1,5 +1,6 @@
 ﻿using ECommerce.Application.Services;
 using ECommerce.Domain.Entities.Concretes;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -12,14 +13,13 @@ public class TokenService : ITokenService
 {
     private readonly IConfiguration _configuration;
 
-    public TokenService(IConfiguration configuration)
-    {
-        _configuration = configuration;
-    }
+	public TokenService(IConfiguration configuration)
+	{
+		_configuration = configuration;
+	}
 
-    public string CreateToken(AppUser user)
+	public string CreateToken(AppUser user,string roleName)
     {
-        
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:SecretKey"]));
         var tokenDescription = new SecurityTokenDescriptor()
         {
@@ -30,8 +30,8 @@ public class TokenService : ITokenService
 
             Subject = new ClaimsIdentity(new Claim[] {
                 new Claim(ClaimTypes.Name, user.UserName!),
-                new Claim(ClaimTypes.Role, user.Role!),
-                new Claim(ClaimTypes.Email, user.Email!)
+                new Claim(ClaimTypes.Email, user.Email!),
+                new Claim(ClaimTypes.Role,roleName)
 			})
         };
 

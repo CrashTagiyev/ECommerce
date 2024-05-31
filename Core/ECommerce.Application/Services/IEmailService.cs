@@ -1,5 +1,4 @@
 ﻿using ECommerce.Domain.Entities.Concretes;
-using ECommerce.Infrastructure.Services;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -13,6 +12,7 @@ namespace ECommerce.Application.Services
 	{
 		Task SendEmailAsync(string toEmail, string subject, string body, bool isBodyHTML);
 		Task SendConfirmationEmail(string? email, AppUser? user);
+		Task SendResetPasswordEmailAsync(string? email, AppUser? user);
 	}
 
 }

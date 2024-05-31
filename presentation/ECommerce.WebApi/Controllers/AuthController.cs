@@ -1,5 +1,7 @@
-﻿using ECommerce.Application.Behaviors.Command.UserCommands;
+﻿using ECommerce.Application.Behaviors.Command.ForgotPasswordCommands;
+using ECommerce.Application.Behaviors.Command.UserCommands;
 using ECommerce.Application.Behaviors.Query.AppUser.LogIn;
+using ECommerce.Application.Behaviors.Query.ResetPasswordQuerries;
 using ECommerce.Application.Repositories;
 using ECommerce.Application.Services;
 using ECommerce.Domain.DTOs;
@@ -11,6 +13,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -58,30 +61,31 @@ public class AuthController : ControllerBase
 
 		if (responce.IsCreated is false)
 			return BadRequest(responce.ConfirmMessage);
-		
+
 		return Ok(responce.ConfirmMessage);
 
 	}
 
-	[Authorize(Roles = "Admin")]
-	[HttpGet("[action]")]
-	public IActionResult SomeMethod()
-	{
-		var identity = HttpContext.User.Identity as ClaimsIdentity;
-		var claims = identity.Claims;
+	//[Authorize(Roles = "Admin")]
+	//[HttpGet("[action]")]
+	//public IActionResult SomeMethod()
+	//{
+	//	var identity = HttpContext.User.Identity as ClaimsIdentity;
+	//	var claims = identity.Claims;
 
-		var user = new AppUser()
-		{
-			UserName = claims.FirstOrDefault(p => p.Type == ClaimTypes.Name)?.Value,
-			Email = claims.FirstOrDefault(p => p.Type == ClaimTypes.Email)?.Value,
-			Role = claims.FirstOrDefault(p => p.Type == ClaimTypes.Role)?.Value
-		};
+	//	var user = new AppUser()
+	//	{
+	//		UserName = claims.FirstOrDefault(p => p.Type == ClaimTypes.Name)?.Value,
+	//		Email = claims.FirstOrDefault(p => p.Type == ClaimTypes.Email)?.Value,
+	//		Role = claims.FirstOrDefault(p => p.Type == ClaimTypes.Role)?.Value
+	//	};
 
-		return Ok(user);
-	}
+	//	return Ok(user);
+	//}
+
 
 	[HttpGet("ConfirmEmail")]
-	public async Task<IActionResult> ConfirmEmail( string userId, string token)
+	public async Task<IActionResult> ConfirmEmail(string userId, string token)
 	{
 		var user = await _userManager.FindByIdAsync(userId);
 
@@ -102,6 +106,31 @@ public class AuthController : ControllerBase
 			else
 				return BadRequest("Email not confirmed");
 		}
+	}
+
+
+	[HttpGet("ForgotPassword")]
+	public async Task<IActionResult> ForgotPassword([FromQuery] ForgotPasswordCommandRequest request )
+	{
+		var response =await _mediator.Send(request);
+		
+		if (response.Token is null)
+			return BadRequest("User with this email is not found");
+
+
+		return Ok(response.Token);
+	}
+
+	[HttpPost("ResetPassword")]
+	public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordQueryRequest request)
+	{
+		var response = await _mediator.Send(request);
+
+		if (response.IsPasswordChanged)
+			return Ok(response.Message);
+
+
+		return BadRequest(response.Message);
 	}
 
 }

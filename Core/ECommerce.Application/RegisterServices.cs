@@ -1,4 +1,5 @@
-﻿using ECommerce.Application.Services;
+﻿using ECommerce.Application.Behaviors.Query.ResetPasswordQuerries;
+using ECommerce.Application.Services;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
@@ -11,6 +12,6 @@ public static class RegisterServices
     {
         services.AddMediatR(p=>p.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
 
-		services.AddTransient<IEmailService, EmailService>();
+
 	}
 }

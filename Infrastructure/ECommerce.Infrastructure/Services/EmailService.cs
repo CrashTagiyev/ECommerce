@@ -3,8 +3,9 @@ using System.Net.Mail;
 using System.Net;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Identity;
+using ECommerce.Application.Services;
 
-namespace ECommerce.Application.Services
+namespace ECommerce.Infrastructure.Services
 {
 	public  class EmailService:IEmailService
 	{
@@ -40,6 +41,9 @@ namespace ECommerce.Application.Services
 			await SendEmailAsync(email!, "Confirm Your Email", $"Please confirm your account by <a href='{confirmationLink}'>{confirmationLink}</a>;.", true);
 		}
 
-
+		public async Task SendResetPasswordEmailAsync(string? email, AppUser? user)
+		{
+			var rePasswordToken=await _userManager.GeneratePasswordResetTokenAsync(user!);
+		}
 	}
 }
